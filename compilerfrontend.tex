@@ -1,0 +1,129 @@
+\documentclass[12pt]{paper}
+
+\usepackage[a4paper, left=20mm, right=20mm, top=20mm, bottom=20mm]{geometry}
+\usepackage[bottom]{footmisc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{listings}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{setspace}
+\usepackage{tikz}
+
+\usetikzlibrary{calc,patterns}
+\pgfplotsset{compat=newest}
+
+\title{Haskell로 만드는 인터프리터}
+
+\author{임기정}
+
+\newenvironment{context}[1][]{\noindent \textbf{{#1}.}}{\hfill $ \dashv $}
+
+\newcommand{\hsstyle}
+{ \lstset
+  { basicstyle=\footnotesize\ttfamily
+  , breakatwhitespace=false
+  , breaklines=true
+  , frame=single
+  , keywordstyle=\color{blue}
+  , morekeywords=
+    { module
+    , where
+    , import
+    , do
+    , let
+    , in
+    , case
+    , of
+    }
+  , tabsize=2
+  }
+}
+
+\newcommand{\terminalstyle}
+{ \lstset
+  { basicstyle=\footnotesize\ttfamily
+  , breakatwhitespace=false
+  , breaklines=true
+  , frame=single
+  , keywordstyle=\color{blue}
+  , tabsize=2
+  }
+}
+
+\lstnewenvironment{hscode}[1][]
+{ \setstretch{1.0}
+  \hsstyle
+  \lstset{#1}
+}
+{ \setstretch{1.5}
+}
+
+\lstnewenvironment{terminalcode}[1][]
+{ \setstretch{1.0}
+  \terminalstyle
+  \lstset{#1}
+}
+{ \setstretch{1.5}
+}
+
+\begin{document}
+
+  \nocite{seman2010}
+
+  \setstretch{1.5}
+  \maketitle \hspace{12pt}
+
+  \section{목표} \hspace{12pt}
+
+  다음을 프로그래밍 언어 Haskell로 구현하는 것을 목표로 한다.
+  \begin{enumerate}
+    \item \underline{어휘분석기 생성기}(\textit{Lexical Analyzer Generator})
+    \item \underline{구문분석기 생성기}(\textit{Syntactic Analyzer Generator})
+    \item Mini-C 인터프리터
+  \end{enumerate}
+
+  \section{``Hello world!''} \hspace{12pt}
+
+  Haskell 빌드 툴인 Stack을 이용하여, ``Hello world!''를 출력해 보자.
+
+\begin{terminalcode}
+> mkdir hello
+> cd hello
+> vim hello.cabal
+> cat hello.cabal
+name: hello
+version: 0.1.0
+build-type: Simple
+cabal-version: >= 1.10
+executable main
+  hs-source-dirs: src
+  default-language: Haskell2010
+  main-is: Main.hs
+  build-depends: base >= 4.7 && < 5
+  other-modules:
+> mkdir src
+> cd src
+> vim Main.hs
+> cat Main.hs
+module Main where
+
+main :: IO ()
+main = putStrLn "Hello world!"
+
+> cd ..
+> stack init
+> stack build hello
+> stack exec -- main
+Hello world!
+\end{terminalcode}
+
+  \bibliographystyle{unsrt}
+  \bibliography{compilerfrontend}
+
+\end{document}
