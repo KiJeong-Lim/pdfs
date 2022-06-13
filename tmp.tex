@@ -1,0 +1,104 @@
+\documentclass[12pt]{paper}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{color}
+\usepackage[bottom]{footmisc}
+\usepackage[a4paper, left=20mm, right=20mm, top=20mm, bottom=20mm]{geometry}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{listings}
+\usepackage{setspace}
+\usepackage{enumitem}
+
+\newenvironment{context}[1][]
+{ \noindent \textbf{{#1}.}
+}
+{ \hfill $ \dashv $
+}
+
+\newcommand{\powerset}
+{ \mathcal{P}
+}
+
+\begin{document}
+
+  \setstretch{1.5}
+
+  \begin{context}[문]
+    집합 $A$가 주어졌을 때,
+    $$ \powerset \left( \bigcup A \right) \subseteq A \leftrightarrow \left( \exists a \in A \right) \left[ A = \powerset \left( a \right) \right] $$인가?
+  \end{context}
+
+  \hspace{12pt}
+
+  \begin{context}[답]
+    그렇다.
+  \end{context}
+
+  \begin{context}[Lemma 1]
+    이항 관계 $R$에 대하여, $R$이 원순서일 때 그리고 그럴 때에만,
+    $$ \left( \forall x \right) \left( \forall y \right) \left[ x R y \leftrightarrow \left( \forall z \right) \left( z R x \rightarrow z R y \right) \right] $$가 성립한다.
+  \end{context}
+
+  \begin{context}[Lemma 2]
+    임의의 집합 $X$에 대하여 $ \bigcup \powerset \left( X \right) = X $이다.
+  \end{context}
+
+  \begin{context}[Lemma 3]
+    임의의 집합 $X$에 대하여 $ \left( \forall z \in X \right) \left[ z \subseteq \bigcup X \right] $이다.
+  \end{context}
+
+  \begin{proof}
+    $\subseteq$는 부분순서이므로
+    보조정리 1로부터 $$ \powerset \left( \bigcup A \right) \subseteq A \iff \forall x \left[ x \subseteq \powerset \left( \bigcup A \right) \rightarrow x \subseteq A \right] $$임을 알 수 있고,
+    임의의 집합 $x$에 대하여
+    \begin{align*}
+      x \subseteq \powerset \left( \bigcup A \right)
+      & \iff \left( \forall z \in x \right) \left( z \in \powerset \left( \bigcup A \right) \right) \\
+      & \iff \left( \forall z \in x \right) \left( z \subseteq \bigcup A \right) \\
+      & \iff \left( \forall z \in x \right) \left( \forall y \in z \right) \left( y \in \bigcup A \right) \\
+      & \iff \left( \forall y \in \bigcup x \right) \left( y \in \bigcup A \right) \\
+      & \iff \bigcup x \subseteq \bigcup A
+    \end{align*}이므로,
+    $$ \left( \forall x \left[ \bigcup x \subseteq \bigcup A \rightarrow x \subseteq A \right] \right) \leftrightarrow \left( \exists a \in A \right) \left[ A = \powerset \left( a \right) \right] $$
+    를 보이면 충분함을 알 수 있다.
+
+    $ \left( \Leftarrow \right) $ 어떤 $a \in A$가 존재하여 $A = \powerset \left( a \right)$가 성립한다고 가정하자.
+    그러면, $ \bigcup x \subseteq \bigcup A $를 만족시키는 집합 $x$가 주어졌다고 가정한 채로 $ x \subseteq A $임을 보일 차례가 된다.
+
+    이제 $ x \subseteq A $를 보이기 위하여 $z \in x$인 집합 $z$가 주어졌다고 가정하자. 그러면
+    \begin{align*}
+      z \in x
+      \implies z \subseteq \bigcup x
+      \implies z \subseteq a
+      \implies z \in \powerset \left( a \right)
+      \implies z \in A
+    \end{align*}
+    이므로, $ \left( \Leftarrow \right) $의 증명이 끝난다.
+
+    $ \left( \Rightarrow \right) $ 먼저 $\eqref{eq:lhs}$을 가정하자.
+    \begin{equation} \label{eq:lhs}
+      \forall x \left[ \bigcup x \subseteq \bigcup A \rightarrow x \subseteq A \right]
+    \end{equation}
+    이때 $a := \bigcup A$로 잡자. 이제 다음 명제들을 모두 보이면 된다. 
+    \setstretch{1.0} \begin{itemize}
+      \item [(a)] $ a \in A $.
+      \item [(b)] $ \powerset \left( a \right) \subseteq A $.
+      \item [(c)] $ A \subseteq \powerset \left( a \right) $.
+    \end{itemize} \setstretch{1.5}
+    \begin{enumerate}
+      \item $\bigcup \left\{ a \right\} = a \subseteq \bigcup A$이므로,
+      명제 (a)는 $\eqref{eq:lhs}$에 $x := \left\{ a \right\}$를 적용하여 얻을 수 있다.
+      \item $\bigcup \powerset \left( a \right) = a \subseteq \bigcup A$이므로,
+      명제 (b)는 $\eqref{eq:lhs}$에 $x := \powerset \left( a \right)$를 적용하여 얻을 수 있다.
+      \item 마지막으로, 명제 (c)를 보이기 위하여, $z \in A$라고 하자.
+      그러면 $$ z \subseteq \bigcup A = a $$이므로,
+      원하던 대로 $z \in \powerset \left( a \right)$를 얻는다.
+    \end{enumerate}
+    이로써 모든 증명이 끝났다.
+  \end{proof}
+
+\end{document}
